@@ -134,6 +134,12 @@ WIDTH_135 = [(135, 240, 52, 40),
              (135, 240, 53, 40),
              (240, 135, 40, 52)]
 
+WIDTH_128 = [(128, 128, 0, 0),
+             (128, 128, 0, 0),
+             (128, 128, 0, 0),
+             (128, 128, 0, 0)]
+
+
 # MADCTL ROTATIONS[rotation % 4]
 ROTATIONS = [0x00, 0x60, 0xc0, 0xa0]
 
@@ -182,11 +188,7 @@ class ST7789():
         """
         Initialize display.
         """
-        if height != 240 or width not in [320, 240, 135]:
-            raise ValueError(
-                "Unsupported display. 320x240, 240x240 and 135x240 are supported."
-            )
-
+        
         if dc is None:
             raise ValueError("dc pin is required.")
 
@@ -316,12 +318,15 @@ class ST7789():
             table = WIDTH_240
         elif self._display_width == 135:
             table = WIDTH_135
+        elif self._display_width == 128:
+            table = WIDTH_128
         else:
             raise ValueError(
                 "Unsupported display. 320x240, 240x240 and 135x240 are supported."
             )
+            
 
-        self.width, self.height, self.xstart, self.ystart = table[rotation]
+        self.width, self.height, self.xstart, 
         self._write(ST7789_MADCTL, bytes([madctl]))
 
     def _set_columns(self, start, end):

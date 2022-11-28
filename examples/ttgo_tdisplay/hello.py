@@ -8,12 +8,12 @@ hello.py
 
 """
 import random
-from machine import Pin, SoftSPI
+from machine import Pin, SoftSPI, SPI
 import st7789py as st7789
 
 # Choose a font
 
-# from romfonts import vga1_8x8 as font
+from romfonts import vga1_8x8 as font
 # from romfonts import vga2_8x8 as font
 # from romfonts import vga1_8x16 as font
 # from romfonts import vga2_8x16 as font
@@ -24,26 +24,19 @@ import st7789py as st7789
 # from romfonts import vga1_16x32 as font
 # from romfonts import vga1_bold_16x32 as font
 # from romfonts import vga2_16x32 as font
-from romfonts import vga2_bold_16x32 as font
+# from romfonts import vga2_bold_16x32 as font
 
 
 def main():
-    spi = SoftSPI(
-        baudrate=20000000,
-        polarity=1,
-        phase=0,
-        sck=Pin(18),
-        mosi=Pin(19),
-        miso=Pin(13))
+    spi = SPI(1, baudrate=10000000, sck=Pin(14), mosi=Pin(15))
 
     tft = st7789.ST7789(
         spi,
-        135,
-        240,
-        reset=Pin(23, Pin.OUT),
-        cs=Pin(5, Pin.OUT),
-        dc=Pin(16, Pin.OUT),
-        backlight=Pin(4, Pin.OUT),
+        128,
+        128,
+        reset=Pin(7, Pin.OUT),
+        cs=Pin(17, Pin.OUT),
+        dc=Pin(6, Pin.OUT),
         rotation=0)
 
     while True:
